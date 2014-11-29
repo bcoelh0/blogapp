@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @post.title %></h1>
+
+<p><%= @post.body %></p>
+
+<hr>
+
+<% @post.comments.each do |comment| %>
+  <h4><%= comment.author %></h4>
+  <p><%= comment.content %></p>
+<% end %>
+
+<h3>Add a comment</h3>
+
+<%= form_for @comment, html: { class: "form-inline" } do |f| %>
+
+  <div class="input-group">
+    <%= f.text_field :author, placeholder: "Author", class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <%= f.text_area :content, placeholder: "Content", class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <%= f.hidden_field :post_id, value: @post.id %>
+  </div>
+  <div class="input-group">
+    <%= f.submit nil, class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= link_to 'Edit', edit_post_path(@post) %> |
+<% end %>
+<%= link_to 'Back', posts_path %>
